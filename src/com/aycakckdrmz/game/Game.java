@@ -1,6 +1,7 @@
 package com.aycakckdrmz.game;
 
 import com.aycakckdrmz.game.graphics.Screen;
+import com.aycakckdrmz.game.input.Keyboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L; //convention?
 
     public static int width = 300;
-    public static int height = width / 16 * 9;
+    public static int height = (width / 16) * 9;
     public static int scale = 3;
     public static String title = "Sokoban";
 
@@ -21,6 +22,7 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
 
     private Screen screen;
+    private Keyboard key;
 
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private int [] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -34,6 +36,8 @@ public class Game extends Canvas implements Runnable {
 
         frame = new JFrame();
 
+        key = new Keyboard();
+        addKeyListener(key);
     }
 
     public synchronized void start() {
@@ -78,13 +82,21 @@ public class Game extends Canvas implements Runnable {
                 timer += 1000;
                 frame.setTitle(title + "   | " + updates + " ups  " + frames + " fps");
                 frames = 0;
+                updates = 0;
             }
 
         }
         stop();
     }
 
+    int x = 0, y = 0;
     public void update(){
+
+        key.update();
+        if(key.u_) y--;
+        if(key.d_) y++;
+        if(key.r_) x--;
+        if(key.l_) x++;
 
     }
 
@@ -95,7 +107,7 @@ public class Game extends Canvas implements Runnable {
             return;
         }
         screen.clear();
-        screen.render();
+        screen.render(x, y);
 
         for(int i = 0; i < pixels.length; i++){
             pixels[i] = screen.pixels[i];

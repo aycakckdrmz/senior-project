@@ -1,29 +1,41 @@
 package com.aycakckdrmz.game.graphics;
 
+import java.util.Random;
+
 public class Screen {
 
     private  int width, height;
+    public final int SIZE_MAP = 8;
+    public final int SIZE_MAP_MASK = 8-1; //tile size
+
     public int [] pixels;
+    public int [] tiles =  new int [SIZE_MAP * SIZE_MAP];
 
-    int xtime = 0, ytime = 0, counter = 0;
-
+    private Random rand = new Random();
 
     public Screen(int width, int height){
         this.width = width;
         this.height = height;
         pixels = new int[width * height]; //54400
+
+        for (int i = 0; i < SIZE_MAP*SIZE_MAP; i++){
+            tiles[i] = rand.nextInt(0xffffff);
+            tiles[0] = 0;
+        }
     }
 
-    public void render(){
-        counter++;
-        if (counter % 100 == 0) xtime++;
-        if (counter % 100 == 0) ytime++;
+    public void render(int xOffset, int yOffset){
 
-        for (int y = 0; y < height; y++){
-            if(ytime < 0 || ytime >= height) break;
+        for (int y = 0; y < height ; y++){
+            //if(y < 0 || y >= height) break;
+            int yy = y + yOffset;
+
             for(int x = 0; x < width; x++){
-                if(xtime < 0 || xtime >= width) break;
-                pixels[ xtime + ytime * width] = 0xff00ff;
+                //if(x < 0 || x >= width) break;
+
+                int xx = x + xOffset;
+                int tileIndex = ((xx >> 4) & SIZE_MAP_MASK) + ((yy >> 3) & SIZE_MAP_MASK) * SIZE_MAP;
+                pixels[ x + y * width] = tiles[tileIndex];
             }
         }
 
