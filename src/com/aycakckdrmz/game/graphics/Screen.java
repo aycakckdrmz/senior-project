@@ -41,7 +41,6 @@ public class Screen {
         for (int i = 0; i < pixels.length; i++ ){
             pixels[i] = 0;
         }
-
     }
 
 }
