@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
-    private static final long serialVersionUID = 1L; //convention?
+    //private static final long serialVersionUID = 1L; //convention?
 
     public static int width = 300;
     public static int height = (width / 16) * 9;
@@ -65,6 +65,7 @@ public class Game extends Canvas implements Runnable {
         final double ns = 1000000000.0 / 60.0;
         double delta = 0.0;
         int frames = 0, updates = 0;
+        requestFocus();
         while(running) {
             now = System.nanoTime();
             delta += (now - lastTime) / ns;
