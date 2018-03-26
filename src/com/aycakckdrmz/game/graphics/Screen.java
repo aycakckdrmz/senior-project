@@ -16,8 +16,8 @@ public class Screen {
 
     public void render(){
         counter++;
-        if (counter % 100 == 0) xtime--;
-        if (counter % 100 == 0) ytime--;
+        if (counter % 100 == 0) xtime++;
+        if (counter % 100 == 0) ytime++;
 
         for (int y = 0; y < height; y++){
             if(ytime < 0 || ytime >= height) break;
