@@ -5,8 +5,8 @@ import java.util.Random;
 public class Screen {
 
     private  int width, height;
-    public final int SIZE_MAP = 8;
-    public final int SIZE_MAP_MASK = 8-1; //tile size
+    public final int SIZE_MAP = 64;
+    public final int SIZE_MAP_MASK = SIZE_MAP-1; //tile size
 
     public int [] pixels;
     public int [] tiles =  new int [SIZE_MAP * SIZE_MAP];
