@@ -1,7 +1,12 @@
 package com.aycakckdrmz.game;
 
+import com.aycakckdrmz.game.graphics.Screen;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L; //convention?
@@ -14,9 +19,17 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
     private boolean running = false;
 
+    private Screen screen;
+
+    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private int [] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+
+
     public Game (){
         Dimension size = new Dimension(width * scale, height * scale);
         setPreferredSize(size);
+
+        screen = new Screen(width, height);
 
         frame = new JFrame();
 
@@ -43,9 +56,27 @@ public class Game extends Canvas implements Runnable {
 
     public void run (){
         while(running){
-            System.out.println("Running...");
-
+            update();
+            render();
         }
+    }
+
+    public void update(){
+
+    }
+
+    public void render(){
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null){
+            createBufferStrategy(3);
+            return;
+        }
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(new Color(20, 30,40));
+        g.fillRect(0,0,getWidth(),getHeight());
+        g.dispose();
+        bs.show();
+
     }
 
 
